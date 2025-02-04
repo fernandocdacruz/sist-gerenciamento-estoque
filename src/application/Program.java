@@ -80,7 +80,7 @@ public class Program {
 			atulaizarPrecoProduto(scanner, produtoDao);
 			break;
 		case 3:
-			produtoDao.atualizarQuantidade(null);
+			atu
 			break;
 		case 4:
 			listarTodosProdutos(scanner, produtoDao);
@@ -247,7 +247,33 @@ public class Program {
 		}
 	}
 	
-	// ATUALIZAR PREÇO PRODUTO
+	// ATUALIZAR QUANTIDADE PRODUTO
+	
+	public static void atulaizarQuantidadeProduto(Scanner scanner, ProdutoDao produtoDao) {
+		List<Produto> produtos = produtoDao.listarTodosProdutos();
+		if (produtos.isEmpty()) {
+			System.out.println("\nNão há nenhum produto cadastrado no sistema.");
+		} else {
+			char op = ' ';
+			do {
+				System.out.print("\nDigite o id do produto: ");
+				int id = scanner.nextInt();
+				Produto produto = produtoDao.buscarPeloId(id);
+				if (produto == null) {
+					System.out.println("\nProduto não encontrado. Deseja tentar novamete ?");
+					op = obterOp(scanner);
+				} else {
+					System.out.println(produto);
+					System.out.println("\nDIGITE O VALOR DO CAMPO A ATUALIZAR. ");
+					int quantidade = obterQuantidade(scanner);
+					produto.setQuantidade(quantidade);
+					produtoDao.atualizarQuantidade(produto);
+					System.out.println("\nQuantidade atualizada com sucesso.");
+					op = 'n';
+				}
+			} while (op != 'n');
+		}
+	}
 	
 	
 	// LISTAR TODOS PRODUTOS
